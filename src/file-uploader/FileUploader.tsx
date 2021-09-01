@@ -1,23 +1,25 @@
 import React, {useState} from 'react';
 
 import styles from './FileUploader.module.css';
+import {ResponseViewer} from '../response-viewer/ResponseViewer';
 
 export const FileUploader: React.FC = () => {
   const [url, setUrl] = useState<string>('http://localhost:8080/upload');
   const [method, setMethod] = useState<string>('POST');
   const [field, setField] = useState<string>('file');
   const [file, setFile] = useState<File | null>(null);
-  const [response, setResponse] = useState<string>('');
+  const [response, setResponse] = useState<object | null>(null);
+  const [unknownError, setUnknownError] = useState<boolean>(false);
 
   function onSubmit(e: React.SyntheticEvent): void {
     e.preventDefault();
+
+    setResponse(null);
+    setUnknownError(false);
+
     if (file != null) {
       upload();
     }
-  }
-
-  function formatJson(val: any): string {
-    return JSON.stringify(val, null, 2);
   }
 
   async function upload(): Promise<void> {
@@ -26,20 +28,21 @@ export const FileUploader: React.FC = () => {
 
     try {
       const response = await fetch(url, {method, body: data});
-      setResponse(formatJson(await response.json()));
+      setResponse(await response.json());
     } catch (error) {
       // @ts-ignore
       if (typeof error.json === 'function') {
         // @ts-ignore
-        setResponse(formatJson(await error.json()));
+        setResponse(await error.json());
       } else {
-        setResponse('Unknown Error');
+        setUnknownError(true);
       }
     }
   }
 
   return (
     <>
+      <h3>Form</h3>
       <form className={styles.fileUploaderForm} onSubmit={onSubmit}>
         <label>
           URL <br/>
@@ -59,12 +62,12 @@ export const FileUploader: React.FC = () => {
         </label>
         <button type='submit'>Send</button>
       </form>
-      {response && (
-        <>
-          <p>Response</p>
-          <pre>{response}</pre>
-        </>
-      )}
+
+      <hr/>
+
+      <h3>Response</h3>
+      {unknownError && <div style={{color: 'red'}}>Unknown Error</div>}
+      {response && <ResponseViewer data={response}/>}
     </>
   );
 };
