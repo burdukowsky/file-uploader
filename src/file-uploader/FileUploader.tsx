@@ -4,7 +4,7 @@ import styles from './FileUploader.module.css';
 import {ResponseViewer} from '../response-viewer/ResponseViewer';
 
 export const FileUploader: React.FC = () => {
-  const [url, setUrl] = useState<string>('http://localhost:8080/upload');
+  const [url, setUrl] = useState<string>('http://localhost:8090/test');
   const [method, setMethod] = useState<string>('POST');
   const [field, setField] = useState<string>('file');
   const [file, setFile] = useState<File | null>(null);

@@ -20,7 +20,9 @@ export const ResponseViewerBody: React.FC<ResponseViewerBodyProps> = ({data, spl
           return (
             <div key={key} className={styles.entry}>
               Key <code>{key}</code>
-              <pre>{formatJson(value)}</pre>
+              {key === 'body' || key === 'errors'
+                ? <pre>{value}</pre>
+                : <pre>{formatJson(value)}</pre>}
             </div>
           );
         })}
