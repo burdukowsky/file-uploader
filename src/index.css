@@ -33,4 +33,6 @@ pre {
   border: solid #dee2e6;
   border-radius: .25rem;
   padding: 1rem 1.5rem;
+  white-space: pre-wrap;
+  word-break: break-word;
 }

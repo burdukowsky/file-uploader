@@ -16,18 +16,22 @@ export const FileUploader: React.FC = () => {
     }
   }
 
+  function formatJson(val: any): string {
+    return JSON.stringify(val, null, 2);
+  }
+
   async function upload(): Promise<void> {
     const data = new FormData();
     data.append(field, file as Blob);
 
     try {
       const response = await fetch(url, {method, body: data});
-      setResponse(await response.json());
+      setResponse(formatJson(await response.json()));
     } catch (error) {
       // @ts-ignore
       if (typeof error.json === 'function') {
         // @ts-ignore
-        setResponse(await error.json());
+        setResponse(formatJson(await error.json()));
       } else {
         setResponse('Unknown Error');
       }
