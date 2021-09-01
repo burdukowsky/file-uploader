@@ -4,3 +4,7 @@
   flex-direction: column;
   gap: 1em;
 }
+
+.error {
+  color: #dc3545;
+}

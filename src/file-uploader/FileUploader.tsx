@@ -62,12 +62,12 @@ export const FileUploader: React.FC = () => {
         </label>
         <button type='submit'>Send</button>
       </form>
+      {unknownError && <p className={styles.error}>Unknown Error</p>}
 
       <hr/>
 
       <h3>Response</h3>
-      {unknownError && <div style={{color: 'red'}}>Unknown Error</div>}
-      {response && <ResponseViewer data={response}/>}
+      <ResponseViewer data={response}/>
     </>
   );
 };

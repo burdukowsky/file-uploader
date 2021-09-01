@@ -1,15 +1,13 @@
 import React, {useState} from 'react';
 
+import {ResponseViewerBody} from './response-viewer-body/ResponseViewerBody';
+
 interface ResponseViewerProps {
-  data: object;
+  data: object | null;
 }
 
 export const ResponseViewer: React.FC<ResponseViewerProps> = ({data}) => {
   const [split, setSplit] = useState<boolean>(false);
-
-  function formatJson(val: any): string {
-    return JSON.stringify(val, null, 2);
-  }
 
   return (
     <>
@@ -17,21 +15,10 @@ export const ResponseViewer: React.FC<ResponseViewerProps> = ({data}) => {
         <input type="checkbox" checked={split} onChange={e => setSplit(e.target.checked)}/>
         Split View
       </label>
-      {split
-        ? (
-          <>
-            {Object.entries(data).map(([key, value]) => {
-              return (
-                <div key={key} style={{margin: '2rem 0'}}>
-                  Key <code>{key}</code>
-                  <pre>{formatJson(value)}</pre>
-                </div>
-              );
-            })}
-          </>
-        )
-        : <pre>{formatJson(data)}</pre>
-      }
+
+      {data == null
+        ? null
+        : <ResponseViewerBody data={data} split={split}/>}
     </>
   );
-}
+};
