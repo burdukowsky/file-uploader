@@ -7,7 +7,7 @@ interface ResponseViewerProps {
 }
 
 export const ResponseViewer: React.FC<ResponseViewerProps> = ({data}) => {
-  const [split, setSplit] = useState<boolean>(false);
+  const [split, setSplit] = useState<boolean>(true);
 
   return (
     <>
